@@ -1,20 +1,20 @@
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
 
-#include "calculator.h"
+#include "../inc/calculator.h"
 
 /**
- * CExampleMock
+ * MockCFunctions
  *
  * GMock macro to define the mock API
  * MOCK_METHOD: Mock C style functions
  * in order to enable unit test coverage.
  *
  */
- class CExampleMock
+ class MockCFunctions
  {
     public:
-        virtual ~CExampleMock() {};
+        virtual ~MockCFunctions() {};
 
         // Mock APIs
         MOCK_METHOD(int, sum, (int x, int y));
@@ -31,7 +31,7 @@
  * instatiate test class. Also includes
  * test case setup and tear down.
  *
- * @param _CExampleMock pointer to test class;
+ * @param _mockCFunctions pointer to test class;
  * Enables external access to test object.
  */
  class CExampleUnitTest : public ::testing::Test
@@ -40,66 +40,66 @@
         CExampleUnitTest()
         {
             // Allocate the mock object
-            _CExampleMock.reset(new ::testing::NiceMock<CExampleMock>());
+            _mockCFunctions.reset(new ::testing::NiceMock<MockCFunctions>());
         }
 
         ~CExampleUnitTest()
         {
-            _CExampleMock.reset();
+            _mockCFunctions.reset();
         }
 
         virtual void SetUp() {};
         virtual void TearDown() {};
 
-        static std::unique_ptr<CExampleMock> _CExampleMock;
+        static std::unique_ptr<MockCFunctions> _mockCFunctions;
  };
 
   // Make the class static member accessible to other function
-  std::unique_ptr<CExampleMock> CExampleUnitTest::_CExampleMock;
+  std::unique_ptr<MockCFunctions> CExampleUnitTest::_mockCFunctions;
 
   // Mock functions
   int sum(int x, int y) 
   {
-    return CExampleUnitTest::_CExampleMock->sum(x, y);
+    return CExampleUnitTest::_mockCFunctions->sum(x, y);
   }
 
   int subtract(int x, int y) 
   {
-    return CExampleUnitTest::_CExampleMock->subtract(x, y);
+    return CExampleUnitTest::_mockCFunctions->subtract(x, y);
   }
 
   int multiply(int x, int y) 
   {
-    return CExampleUnitTest::_CExampleMock->multiply(x, y);
+    return CExampleUnitTest::_mockCFunctions->multiply(x, y);
   }
 
   float divide(float x, int y) 
   {
-    return CExampleUnitTest::_CExampleMock->divide(x, y);
+    return CExampleUnitTest::_mockCFunctions->divide(x, y);
   }
 
   // Tests
   TEST_F(CExampleUnitTest, sum)
   {
-    EXPECT_CALL(*_CExampleMock, sum(5, 10)).Times(1).WillOnce(testing::Return(25));
+    EXPECT_CALL(*_mockCFunctions, sum(5, 10)).Times(1).WillOnce(testing::Return(25));
     EXPECT_EQ(25, sum(5, 10));
   }
 
   TEST_F(CExampleUnitTest, subtract)
   {
-    EXPECT_CALL(*_CExampleMock, subtract(5, 10)).Times(1).WillOnce(testing::Return(41));
+    EXPECT_CALL(*_mockCFunctions, subtract(5, 10)).Times(1).WillOnce(testing::Return(41));
     EXPECT_EQ(41, subtract(5, 10));
   }
 
   TEST_F(CExampleUnitTest, multiply)
   {
-    EXPECT_CALL(*_CExampleMock, multiply(5, 10)).Times(1).WillOnce(testing::Return(13));
+    EXPECT_CALL(*_mockCFunctions, multiply(5, 10)).Times(1).WillOnce(testing::Return(13));
     EXPECT_EQ(13, multiply(5, 10));
   }
 
   TEST_F(CExampleUnitTest, divide)
   {
-    EXPECT_CALL(*_CExampleMock, divide(17.0, 10)).Times(1).WillOnce(testing::Return(2.35));
+    EXPECT_CALL(*_mockCFunctions, divide(17.0, 10)).Times(1).WillOnce(testing::Return(2.35));
    
     float getFloat = 2.35;
     EXPECT_EQ(getFloat, divide(17.0, 10));

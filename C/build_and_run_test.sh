@@ -1,10 +1,13 @@
 #!/bin/sh
 
-# Generate cmake files and create build folder
+echo "Remove old build folder"
+rm -rf build
+
+echo "Generate cmake files and create build folder"
 cmake -S . -B build
 
-# Build code
+echo "Build tests"
 cmake --build build
 
-# Run tests
+echo "Run tests"
 ./build/calculator_test
