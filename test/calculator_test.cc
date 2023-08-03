@@ -73,7 +73,7 @@
     return CExampleUnitTest::_CExampleMock->multiply(x, y);
   }
 
-  float sum(float x, int y) 
+  float divide(float x, int y) 
   {
     return CExampleUnitTest::_CExampleMock->divide(x, y);
   }
@@ -83,6 +83,26 @@
   {
     EXPECT_CALL(*_CExampleMock, sum(5, 10)).Times(1).WillOnce(testing::Return(25));
     EXPECT_EQ(25, sum(5, 10));
+  }
+
+  TEST_F(CExampleUnitTest, subtract)
+  {
+    EXPECT_CALL(*_CExampleMock, subtract(5, 10)).Times(1).WillOnce(testing::Return(41));
+    EXPECT_EQ(41, subtract(5, 10));
+  }
+
+  TEST_F(CExampleUnitTest, multiply)
+  {
+    EXPECT_CALL(*_CExampleMock, multiply(5, 10)).Times(1).WillOnce(testing::Return(13));
+    EXPECT_EQ(13, multiply(5, 10));
+  }
+
+  TEST_F(CExampleUnitTest, divide)
+  {
+    EXPECT_CALL(*_CExampleMock, divide(17.0, 10)).Times(1).WillOnce(testing::Return(2.35));
+   
+    float getFloat = 2.35;
+    EXPECT_EQ(getFloat, divide(17.0, 10));
   }
 
   int main(int argc, char** argv) {
